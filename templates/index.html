@@ -1,23 +1,41 @@
 <!DOCTYPE html>
-<html lang="English">
-    <head>
-        <meta charset="UTF-8">
-        <title>Find Events near You</title>
-    
-        <link rel="stylesheet" href="C:/Start Menu/Programs/Flask_app/static/style.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Find Events Based on Your Location</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    </head> 
-    <body>
-        <h1>Find Events Based On Your Location</h1>
-        <label for="city">Enter Your City:</label><br>
-        <input type="text" id="city" placeholder=""><br>
-        <label for="time">Select Your Time:</label>
-        <select id="time">
-            <option value="morning">Morning (6AM-11AM )</option>
-            <option value="afternoon">Afternoon (12PM-5PM )</option>
-            <option value="evening">Evening (6PM-10PM )</option>
-        </select><br>
-        <button onclick="findEvents()">Search</button>
-        
-    </body>
+ 
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+ 
+  
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" src="{{ url_for('static', filename='script.jsx') }}"></script>
+  <div class="city-search-container">
+    <h2>Find Events Based on Your Location</h2>
+
+    <label for="city">Enter Your City:</label>
+    <input
+      type="text"
+      id="cityInput"
+      placeholder="e.g., Tehran"
+      autocomplete="off"
+    />
+    <ul id="suggestions"></ul>
+
+    <label for="time">Select Your Time:</label>
+    <select id="time">
+      <option value="morning">Morning (6AM–11AM)</option>
+      <option value="afternoon">Afternoon (12PM–5PM)</option>
+      <option value="evening">Evening (6PM–10PM)</option>
+    </select>
+
+    <button onclick="searchEvents()">Search</button>
+  </div>
+</body>
 </html>

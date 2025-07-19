@@ -1,12 +1,66 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f7fa;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    display: flex;
+    justify-content: center;
     padding: 40px;
-    margin: 0px;
-
-}
-h1{
-    text-align: center;
-    color:black;
-    margin-bottom: 28px;
-}
+  }
+  
+  .city-search-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  label {
+    font-weight: bold;
+    display: block;
+    margin-top: 20px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  ul#suggestions {
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  ul#suggestions li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  ul#suggestions li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #005fa3;
+  }
+  
