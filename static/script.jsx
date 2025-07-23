@@ -6,6 +6,13 @@ function App() {
   const [events, setEvents] = useState([]);
   const [coords, setCoords] = useState(null); // {lat, lon}
   const [statusMsg, setStatusMsg] = useState("");
+  const [time, setTime] = useState("all");
+  const [simulatedProximityZone, setSimulatedProximityZone] = useState("None"); // NEW State for proximity
+  const [preferredCategory, setPreferredCategory] = useState("All");
+  const [simulatedRole, setSimulatedRole] = useState("standard");
+  const [selectedDate, setSelectedDate] = useState("");
+  const eventCategories = ["All", "Music", "Arts", "Sports", "Business", "Food & Drink", "Tech", "Other"];
+
 
   // city suggestions
   useEffect(() => {
@@ -42,16 +49,35 @@ function App() {
 
   const fetchEvents = () => {
     setStatusMsg("Searching events...");
-    // Build URL: include coords if we have them; always include city if user typed
     const params = new URLSearchParams();
     if (coords) {
       params.set("lat", coords.lat);
       params.set("lon", coords.lon);
-      // optional radius override: params.set("within","25km");
     }
     if (query.trim()) {
       params.set("city", query.trim());
     }
+    if (time && time !== "all") {
+      params.set("time", time);
+    if (selectedDate) {
+      params.set("date", selectedDate);
+    }
+    }
+    // Optional: for testing user role based CAC
+    // params.set("simulated_role", "premium"); // Uncomment to simulate premium user
+
+    // NEW: Add simulated proximity zone to parameters
+    if (simulatedProximityZone !== "None") {
+      params.set("proximity_zone", simulatedProximityZone);
+    }
+    if (preferredCategory !== "All") {
+      params.set("preferred_category", preferredCategory);
+    }
+    // NEW: Add simulated role to parameters
+    if (simulatedRole !== "standard") { // Only add if it's 'premium'
+      params.set("simulated_role", simulatedRole);
+    }
+
     fetch(`/events?${params.toString()}`)
       .then(res => res.json())
       .then(data => {
@@ -87,13 +113,47 @@ function App() {
         autoComplete="off"
       />
       {suggestions.length > 0 && (
-        <ul>
+        <ul id="suggestions">
           {suggestions.map((c, i) => (
             <li key={i} onClick={() => handleSuggestionClick(c)}>{c}</li>
           ))}
         </ul>
       )}
+       <label>Select Time Slot:</label>
+        <select value={time} onChange={(e) => setTime(e.target.value)}>
+          <option value="all">All Times</option>
+          <option value="morning">Morning (6AM–11AM)</option>
+          <option value="afternoon">Afternoon (12PM–5PM)</option>
+          <option value="evening">Evening (6PM–10PM)</option>
+        </select>
+       <label>Select Date:</label>
+        <input 
+            type="date" 
+            value={selectedDate} 
+            onChange={(e) => setSelectedDate(e.target.value)} 
+        />
 
+        <label>Simulate Proximity Zone:</label> {/* NEW UI for simulation */}
+        <select value={simulatedProximityZone} onChange={(e) => setSimulatedProximityZone(e.target.value)}>
+          <option value="None">Not in a specific zone</option>
+          <option value="Zone A">Exhibit Hall A (Simulated Beacon)</option>
+          <option value="Zone B">Conference Room 3 (Simulated Wi-Fi)</option>
+        </select>
+
+        <br />
+        <label>Preferred Event Category:</label>
+        <select value={preferredCategory} onChange={(e) => setPreferredCategory(e.target.value)}>
+          {eventCategories.map((cat, i) => (
+            <option key={i} value={cat}>{cat}</option>
+          ))}
+        </select>
+        <label>Simulate User Role:</label>
+        <select value={simulatedRole} onChange={(e) => setSimulatedRole(e.target.value)}>
+          <option value="standard">Standard User</option>
+          <option value="premium">Premium User</option>
+        </select>
+
+         <br />
       <button onClick={fetchEvents}>Search Events</button>
 
       <h3>Events:</h3>
@@ -102,13 +162,16 @@ function App() {
           <li key={i}>
             <strong>{ev.title}</strong><br/>
             {ev.datetime}{ev.venue ? ` @ ${ev.venue}` : ""}<br/>
-            <a href={ev.url} target="_blank" rel="noopener noreferrer">View</a>
+            {ev.url ? (
+                <a href={ev.url} target="_blank" rel="noopener noreferrer">View</a>
+            ) : (
+                <span style={{color: 'red', fontWeight: 'bold'}}>(Premium content - Upgrade to view link!)</span>
+            )}
           </li>
         ))}
       </ul>
       </div>
     </div>
-  
   );
 }
 
