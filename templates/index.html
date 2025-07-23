@@ -16,26 +16,6 @@
 <body>
   <div id="root"></div>
   <script type="text/babel" src="{{ url_for('static', filename='script.jsx') }}"></script>
-  <div class="city-search-container">
-    <h2>Find Events Based on Your Location</h2>
 
-    <label for="city">Enter Your City:</label>
-    <input
-      type="text"
-      id="cityInput"
-      placeholder="e.g., Tehran"
-      autocomplete="off"
-    />
-    <ul id="suggestions"></ul>
-
-    <label for="time">Select Your Time:</label>
-    <select id="time">
-      <option value="morning">Morning (6AM–11AM)</option>
-      <option value="afternoon">Afternoon (12PM–5PM)</option>
-      <option value="evening">Evening (6PM–10PM)</option>
-    </select>
-
-    <button onclick="searchEvents()">Search</button>
-  </div>
 </body>
 </html>
