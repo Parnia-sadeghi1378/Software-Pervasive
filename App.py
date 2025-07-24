@@ -11,7 +11,7 @@ SEATGEEK_CLIENT_ID = "NTE0MTc0MzF8MTc1MzI5MTg5NC44OTg5MTA4"
 SEARCH_RADIUS = "25km"
 CITY_FALLBACK_RADIUS = "50km"
 
-# Load city suggestion
+# Load city suggestions
 df = pd.read_csv('worldcities.csv')
 CITIES = df['city'].dropna().unique().tolist()
 EVENT_CATEGORIES = ["Music", "Arts", "Sports", "Business", "Food & Drink", "Tech", "Other"]
