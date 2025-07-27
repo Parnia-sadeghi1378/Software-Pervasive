@@ -14,7 +14,7 @@ CITY_FALLBACK_RADIUS = "50km"
 # Load city suggestions
 df = pd.read_csv('worldcities.csv')
 CITIES = df['city'].dropna().unique().tolist()
-EVENT_CATEGORIES = ["Music", "Arts", "Sports", "Business", "Food & Drink", "Tech", "Other"]
+preferred_category = ["Music", "Arts", "Sports", "Business", "Food & Drink", "Tech", "Other"]
 
 
 @app.route("/")
@@ -131,6 +131,8 @@ def get_events():
 
         # Proximity filtering (simulated)
         if "EXHIBIT HALL A" in (venue or "").upper() and proximity_zone != "Zone A":
+            continue
+        if not matches_preferred_category(name or "", preferred_category):
             continue
 
         if name and start_local and matches_time_slot(start_local):
